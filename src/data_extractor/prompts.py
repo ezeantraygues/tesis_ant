@@ -1,0 +1,2 @@
+USER_TEXT_CONTENT = """"""
+SYSTEM_CONTENT = """"""
