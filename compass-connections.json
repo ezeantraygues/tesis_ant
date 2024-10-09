@@ -1,0 +1,27 @@
+{
+  "type": "Compass Connections",
+  "version": {
+    "$numberInt": "1"
+  },
+  "connections": [
+    {
+      "id": "d388a9cc-b89f-455e-8b11-6380b9b38c49",
+      "lastUsed": {
+        "$date": {
+          "$numberLong": "1728238649655"
+        }
+      },
+      "favorite": {
+        "name": "ezeantdb",
+        "color": "no-color"
+      },
+      "savedConnectionType": "favorite",
+      "connectionOptions": {
+        "connectionString": "mongodb://localhost:27017/",
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjowLCJzdGF0ZSI6W119"
+        }
+      }
+    }
+  ]
+}
