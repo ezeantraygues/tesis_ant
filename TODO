@@ -3,3 +3,4 @@
 3. completar código para extraer plots en src\data_extractor\extract_data.py -> __extract_plots_from_image()
 4. implement class to communicate with gdrive
 5. implementar conector a pinecone y métodos para subir/buscar
+6. new task
