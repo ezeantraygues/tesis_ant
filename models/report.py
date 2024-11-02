@@ -2,35 +2,45 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class DataExtractorResponse(BaseModel):
+class QuantitativeData(BaseModel):
     #TODO: completar con todos los parámetros
-    cadencia:Optional[str]
-    tipo_contacto: Optional[str]
-    inclinacion_tronco: Optional[str]
-    progresion: Optional[str]
-    indice_simetria: Optional[str]
-    velocidad_propulsion: Optional[str]
-    capacidad_amortiguacion: Optional[str]
-    rango_anteversion: Optional[str]
-    rango_rotacion_pelvica: Optional[str]
-    FRP: Optional[str]
-    activacion_muscular_apoyo: Optional[str]
-    activacion_muscular_oscilacion: Optional[str]
+    cadencia: str
+    tipo_contacto: str
+    inclinacion_tronco: str
+    progresion: str
+    indice_simetria: str
+    velocidad_propulsion: str
+    capacidad_amortiguacion: str
+    rango_anteversion: str
+    rango_rotacion_pelvica: str
+    FRP: str
+    activacion_muscular_apoyo: str
+    activacion_muscular_oscilacion: str
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "cadencia": "90 pasos/minuto",
-                "tipo_contacto": "talón",
-                "inclinacion_tronco": "normal",
-                "progresion": "rectilínea",
-                "indice_simetria": "95%",
-                "velocidad_propulsion": "1.5 m/s",
-                "capacidad_amortiguacion": "buena",
-                "rango_anteversion": "15°",
-                "rango_rotacion_pelvica": "8°",
-                "FRP": "normal",
-                "activacion_muscular_apoyo": "sobreactivación",
-                "activacion_muscular_oscilacion": "normal"
-            }
-        }
+class TextFields(BaseModel):
+    resultados:str
+    conclusiones:str
+    recomendaciones:str
+    
+
+class DataExtractorResponse(BaseModel):
+    quantitative_data:QuantitativeData
+    text_fields:TextFields  
+
+    # class Config:
+    #     schema_extra = {
+    #         "example": {
+    #             "cadencia": "90 pasos/minuto",
+    #             "tipo_contacto": "talón",
+    #             "inclinacion_tronco": "normal",
+    #             "progresion": "rectilínea",
+    #             "indice_simetria": "95%",
+    #             "velocidad_propulsion": "1.5 m/s",
+    #             "capacidad_amortiguacion": "buena",
+    #             "rango_anteversion": "15°",
+    #             "rango_rotacion_pelvica": "8°",
+    #             "FRP": "normal",
+    #             "activacion_muscular_apoyo": "sobreactivación",
+    #             "activacion_muscular_oscilacion": "normal"
+    #         }
+    #     }

@@ -1,11 +1,8 @@
 import base64
 from io import BytesIO
 from PIL import Image
-import logging
 import fitz
 from typing import List
-
-
 
 
 class FileProcessor:
@@ -71,11 +68,8 @@ class DataPreprocessor:
             )
 
     def __call__(self):
-        self.imgs = (
-            self.convert_pdf_to_img(self.doc_data)
-            if self.doc_data[:4] == b"%PDF"
-            else [self.bytes_to_pil_image(self.doc_data)]
-        )
+        self.imgs = self.convert_pdf_to_img(self.doc_data)
+            
         self.resize_images()
         self.encode_images()
         return self.encoded_imgs
