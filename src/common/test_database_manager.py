@@ -1,4 +1,4 @@
-from database_manager import DatabaseManager
+from src.common.mongo_manager import DatabaseManager
 
 # Configura la URI y el nombre de la base de datos
 URI = "mongodb+srv://ezeantraygues:46w1pB9TBeWOncgV@cluster0.i6kji.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"

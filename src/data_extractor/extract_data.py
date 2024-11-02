@@ -1,14 +1,12 @@
 import json
 import os
-import cv2
+
+# import cv2
 import base64
 import numpy as np
 from typing import List
-from typing import List
-#from langchain_openai import AzureChatOpenAI
+from langchain_openai import AzureChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
-from langchain.chat_models import AzureOpenAI
-#PREGUNTA: 
 
 
 from models.report import DataExtractorResponse
@@ -20,7 +18,7 @@ AZURE_CHAT_DEPLOYMENT_NAME = os.getenv("AZURE_CHAT_DEPLOYMENT_NAME")
 from .prompts import USER_TEXT_CONTENT, SYSTEM_CONTENT
 
 
-chat = AzureOpenAI(
+chat = AzureChatOpenAI(
     openai_api_key=AZURE_OPENAI_API_KEY,
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
     deployment_name=AZURE_CHAT_DEPLOYMENT_NAME,
@@ -34,9 +32,12 @@ system_message = SystemMessage(content=SYSTEM_CONTENT)
 
 
 def extract_data_from_image(images: List[str]):
+
+    llm_data = __extract_data_from_image_llm(images)
     return {
-        'data':__extract_data_from_image_llm(images),
-        'plots':__extract_plots_from_image(images)
+        'quantitative_data': llm_data['quantitative_data'],
+        'text_fields': llm_data['text_fields']
+        # ,'plots':__extract_plots_from_image(raw_images)
     }
 
 
@@ -125,40 +126,40 @@ def __extract_data_from_image_llm(
 #     return plots  # Devolver la lista de gráficos recortados
 
 
-#     pass
-def __extract_plots_from_image(images: List[np.ndarray]):
-    """
-    Extrae gráficos (plots) de las imágenes proporcionadas.
+# #     pass
+# def __extract_plots_from_image(images: List[np.ndarray]):
+#     """
+#     Extrae gráficos (plots) de las imágenes proporcionadas.
 
-    Args:
-        images (List[np.ndarray]): Lista de imágenes en formato np.ndarray (ya preprocesadas).
+#     Args:
+#         images (List[np.ndarray]): Lista de imágenes en formato np.ndarray (ya preprocesadas).
 
-    Returns:
-        List[np.ndarray]: Lista de imágenes recortadas que contienen los gráficos.
-    """
-    plots = []  # Lista para almacenar los gráficos recortados
+#     Returns:
+#         List[np.ndarray]: Lista de imágenes recortadas que contienen los gráficos.
+#     """
+#     plots = []  # Lista para almacenar los gráficos recortados
 
-    for image in images:
-        # Convertir la imagen a escala de grises
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     for image in images:
+#         # Convertir la imagen a escala de grises
+#         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # Aplicar un desenfoque para reducir el ruido
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+#         # Aplicar un desenfoque para reducir el ruido
+#         blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
-        # Detectar bordes utilizando Canny
-        edged = cv2.Canny(blurred, 50, 150)
+#         # Detectar bordes utilizando Canny
+#         edged = cv2.Canny(blurred, 50, 150)
 
-        # Encontrar contornos
-        contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+#         # Encontrar contornos
+#         contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        for contour in contours:
-            # Obtener el área delimitada por el contorno
-            x, y, w, h = cv2.boundingRect(contour)
+#         for contour in contours:
+#             # Obtener el área delimitada por el contorno
+#             x, y, w, h = cv2.boundingRect(contour)
 
-            # Filtrar contornos pequeños para evitar recortes irrelevantes
-            if w > 50 and h > 50:
-                # Recortar la imagen al área del gráfico
-                plot = image[y:y+h, x:x+w]
-                plots.append(plot)  # Agregar el gráfico recortado a la lista
+#             # Filtrar contornos pequeños para evitar recortes irrelevantes
+#             if w > 50 and h > 50:
+#                 # Recortar la imagen al área del gráfico
+#                 plot = image[y:y+h, x:x+w]
+#                 plots.append(plot)  # Agregar el gráfico recortado a la lista
 
-    return plots  # Devolver la lista de gráficos recortados
+#     return plots  # Devolver la lista de gráficos recortados
