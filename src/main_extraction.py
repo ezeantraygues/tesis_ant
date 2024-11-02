@@ -16,9 +16,6 @@ MONGO_COLLECTION = os.getenv('MONGO_COLLECTION')
 
 mongo_manager = MongoManager(MONGO_URI,MONGO_DATABASE)
 
-# gdrive_manager = GdriveManager()
-
-
 def process_file(pdf_path: str):
 
     with open(pdf_path, 'rb') as file:
@@ -32,7 +29,7 @@ def process_file(pdf_path: str):
 
 
     
-    url = Uploader().upload_file(pdf_path,'1TqqPUARbUFWpOnGEkufm2xkrHuUF_vIH')#extracted_data['plots'])
+    file_id = Uploader().upload_file(pdf_path,'1TqqPUARbUFWpOnGEkufm2xkrHuUF_vIH')#extracted_data['plots'])
 
     # #Upload 'Resultados" & 'Conclusiones' to vector store (pinecone)
     # upload_vectors(extracted_data['text_fields'])

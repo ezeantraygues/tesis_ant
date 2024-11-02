@@ -1,1 +1,4 @@
 .env.dev
+credentials.json
+*.pdf
+__pycache__
