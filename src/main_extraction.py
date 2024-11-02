@@ -29,7 +29,7 @@ def process_file(pdf_path: str):
 
 
     
-    file_id = Uploader().upload_file(pdf_path,'1TqqPUARbUFWpOnGEkufm2xkrHuUF_vIH')#extracted_data['plots'])
+    file_id = Uploader().upload_file(extracted_data['plots'],folder_id)
 
     # #Upload 'Resultados" & 'Conclusiones' to vector store (pinecone)
     # upload_vectors(extracted_data['text_fields'])
