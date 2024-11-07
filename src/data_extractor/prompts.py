@@ -16,7 +16,6 @@ You'll receive images from a biomechanical report of a patient, showing data in 
             activacion_muscular_apoyo: str
             activacion_muscular_oscilacion: str
         }},
-
     text_fields: {{
         resultados:str
         conclusiones:str

@@ -25,7 +25,8 @@ def process_file(pdf_path: str):
     extracted_data = extract_data_from_image(pdf_image)
 
     #TODO: separate each item in the corresponding db
-    mongo_manager.put_item(MONGO_COLLECTION, extracted_data['quantitative_data'])
+    mongo_manager.put_item(MONGO_COLLECTION, extracted_data['quantitative_data']) # {k:v for k,v in extracted_data['quantitative_data'].items() if k in ['indice_simetria']})
+    
 
 
     

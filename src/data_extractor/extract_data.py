@@ -36,8 +36,8 @@ def extract_data_from_image(images: List[str]):
     llm_data = __extract_data_from_image_llm(images)
     return {
         'quantitative_data': llm_data['quantitative_data'],
-        'text_fields': llm_data['text_fields']
-        ,'plots':__extract_plots_from_image(images)
+        'text_fields': llm_data['text_fields'],
+        'plots':__extract_plots_from_image(images)
     }
 
 
@@ -86,7 +86,12 @@ def __extract_plots_from_image(images):
     crop_images = []
 
     #Buscar las coordenadas de cada plot en cada página, en formato left,upper,right,lower
-    crop_coordinates = [[(10,10,80,80),(),()],[(),(),()],[],[]]
+    crop_coordinates = [
+        [(10,10,80,80),(),()], #Pag 1
+        [(),(),()], #Pag 2
+        [], #Pag 3
+        []
+    ]
 
      
     for idx,image in enumerate(images):
@@ -95,6 +100,9 @@ def __extract_plots_from_image(images):
 
         # Load the image from bytes
         image = Image.open(BytesIO(image_data))
+        
+        with open("image.png", "wb") as file:
+            file.write(image_data)
 
         # Define the coordinates for cropping (left, upper, right, lower)
         # Example coordinates, change them to the desired ones
