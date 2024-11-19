@@ -36,8 +36,8 @@ def extract_data_from_image(images: List[str]):
     llm_data = __extract_data_from_image_llm(images)
     return {
         'quantitative_data': llm_data['quantitative_data'],
-        'text_fields': llm_data['text_fields']
-        ,'plots':__extract_plots_from_image(images)
+        'text_fields': llm_data['text_fields'],
+        'plots':__extract_plots_from_image(images)
     }
 
 
@@ -86,9 +86,9 @@ def __extract_plots_from_image(images):
     crop_images = []
 
     #Buscar las coordenadas de cada plot en cada página, en formato left,upper,right,lower
-    crop_coordinates = [[(10,10,80,80),(),()],[(),(),()],[],[]]
-
-     
+    crop_coordinates = [[],[(35, 540, 955, 960)],[(40, 100, 950, 400),(40, 420, 480, 580),(40, 580, 480, 740),(40, 740, 480, 900),(510, 420, 960, 580),(510, 580, 950, 740),(510, 740, 950, 900)],[(35, 80, 950, 900)],[(35, 80, 950, 900)],[(35, 60, 950, 950)],[],[(35, 160, 950, 950)],[(35, 160, 950, 950)],[],[(35, 160, 950, 950)],[(35, 160, 950, 950)],[]]
+    #crop_coordinates = [[],[(rango de rot pelvica)],[(cap de amortiguacion),(dur ciclo de la carr),(cadencia),(vel de propulsion),(ind de simetria),(dur fase contacto),(dur fas apoyo)],[(graficos ciclo correr)],[(graficos ciclo caminar)],[(dinamica musculos)],[],[(prueba salto rig bipodlico)],[(prueba salto rig bipodlico))],[],[(prueba salto rig monopodlico)],[(prueba salto rig monopodlico)],[]]
+    # podria dividir en 4 el de dinamica musculos (corchete nro 6) 
     for idx,image in enumerate(images):
         # Convert the base64 string back to bytes
         image_data = base64.b64decode(image)
