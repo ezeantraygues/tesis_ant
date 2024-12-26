@@ -2,6 +2,10 @@ SYSTEM_CONTENT = """
 You'll receive images from a biomechanical report of a patient, showing data in different formats. Your task is to extract the following data and return it as a json:
 
 {{
+    patient_data: {{
+            PACIENTE: str
+            
+        }},
     quantitative_data: {{
             cadencia: str
             tipo_contacto: str

@@ -2,6 +2,9 @@
 from pydantic import BaseModel
 from typing import Optional
 
+class PatientData(BaseModel):
+    PACIENTE: str
+
 class QuantitativeData(BaseModel):
     #TODO: completar con todos los parámetros
     cadencia: str
@@ -24,6 +27,7 @@ class TextFields(BaseModel):
     
 
 class DataExtractorResponse(BaseModel):
+    patient_data:PatientData
     quantitative_data:QuantitativeData
     text_fields:TextFields  
 
