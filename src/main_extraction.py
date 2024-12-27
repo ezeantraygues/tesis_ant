@@ -5,7 +5,7 @@ load_dotenv('.env.dev')
 
 from src.common.mongo_manager import MongoManager
 from src.common.gdrive_manager import Uploader
-# from data_extractor import upload_vectors
+from data_extractor import upload_vectors
 from src.data_extractor.extract_data import extract_data_from_image
 from src.preprocessing.preprocess_files import DataPreprocessor
 
@@ -32,5 +32,5 @@ def process_file(pdf_path: str):
     
     file_id = Uploader().upload_file(extracted_data['plots'],folder_id)
 
-    # #Upload 'Resultados" & 'Conclusiones' to vector store (pinecone)
-    # upload_vectors(extracted_data['text_fields'])
+    #Upload 'Resultados" & 'Conclusiones' to vector store (pinecone)
+    upload_vectors(extracted_data['text_fields'],extracted_data['patient_data'])
