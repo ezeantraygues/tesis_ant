@@ -3,7 +3,13 @@ You'll receive images from a biomechanical report of a patient, showing data in 
 
 {{
     patient_data: {{
-            PACIENTE: str
+            paciente: str
+            patologia: str
+            session_notes: str
+            fecha_nacimiento: str
+            peso: str
+            altura: str
+            sexo: str
             
         }},
     quantitative_data: {{

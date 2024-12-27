@@ -3,7 +3,13 @@ from pydantic import BaseModel
 from typing import Optional
 
 class PatientData(BaseModel):
-    PACIENTE: str
+    paciente: str
+    patologia: str
+    session_notes: str
+    fecha_nacimiento: str
+    peso: str
+    altura: str
+    sexo: str
 
 class QuantitativeData(BaseModel):
     #TODO: completar con todos los parámetros
