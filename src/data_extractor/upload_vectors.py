@@ -9,7 +9,7 @@ def upload_vectors(text_fields:dict, patient_data:dict):
     
     vector_list = []
     for k,v in text_fields.items():
-        vector_list.append(tuple(v, vector_metadata = {"type":k,**patient_data}))
+        vector_list.append((v,{"type":k,**patient_data}))
 
     #save vector to pinecone
     pinecone.upload(vector_list)
