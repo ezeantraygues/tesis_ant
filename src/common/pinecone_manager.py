@@ -38,7 +38,6 @@ class PineconeManager:
                 doc.metadata = metadata
             self.db.add_documents(documents=docs)     
 
-
     def search(self, query: str) -> List[dict]:
         # Search for the query in the database
         results = self.db.similarity_search(query, k=self.k)
