@@ -39,15 +39,8 @@ class PineconeManager:
             self.db.add_documents(documents=docs)     
 
 
-    def search(self, query: str) -> str:
+    def search(self, query: str) -> List[dict]:
         # Search for the query in the database
         results = self.db.similarity_search(query, k=self.k)
-
-        # Save the results in the history
-        self.results_history.append([result.page_content for result in results])
-
-        # Concatenate the results
-        concatenated_results = "- " + "\n- ".join(
-            [result.page_content for result in results]
-        )
-        return concatenated_results
+        search_results = [{**result.metadata, "texto":result.page_content} for result in results]
+        return search_results
