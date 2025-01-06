@@ -72,24 +72,6 @@ class DriveAPI:
             print(str(e))
             return None
 
-    def download_file(self, file_id, destination_path):
-        """
-        Downloads a file from Google Drive by its file ID.
-        :param file_id: The ID of the file to download.
-        :param destination_path: The local path where the file will be saved.
-        """
-        try:
-            request = self.service.files().get_media(fileId=file_id)
-            with io.FileIO(destination_path, "wb") as file_handle:
-                downloader = MediaIoBaseDownload(file_handle, request)
-                done = False
-                while not done:
-                    status, done = downloader.next_chunk()
-                    print(f"Download progress: {int(status.progress() * 100)}%")
-            print(f"File downloaded successfully to: {destination_path}")
-        except Exception as e:
-            print(f"Error downloading file: {e}")
-
 class Downloader(DriveAPI):
     def __init__(self, vervose=False):
         super(Downloader, self).__init__()
