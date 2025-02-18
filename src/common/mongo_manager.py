@@ -49,7 +49,7 @@ class MongoManager:
         """
         try:
             collection = self.db[collection_name]
-            result = collection.update_one(query, {"$set": new_values})
+            result = collection.update_one(query, new_values)
             return result.modified_count
         except Exception as e:
             print(f"Error al actualizar documento: {e}")

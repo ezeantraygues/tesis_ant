@@ -1,4 +1,7 @@
 import streamlit as st
+# Cargar variables de entorno
+from dotenv import load_dotenv
+load_dotenv(".env.dev")
 
 st.set_page_config(
     page_title="Form filling App",

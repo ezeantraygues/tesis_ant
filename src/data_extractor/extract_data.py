@@ -5,6 +5,7 @@ import base64
 from io import BytesIO
 import base64
 from typing import List
+#from langchain.chat_models import AzureChatOpenAI
 from langchain_openai import AzureChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
@@ -22,10 +23,10 @@ chat = AzureChatOpenAI(
     openai_api_key=AZURE_OPENAI_API_KEY,
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
     deployment_name=AZURE_CHAT_DEPLOYMENT_NAME,
-    openai_api_version="2024-08-01-preview",
+    openai_api_version="2025-01-01-preview",
     temperature=0.25,
     request_timeout=550,
-    max_tokens=4000,
+    max_tokens=2000,
 )
 
 system_message = SystemMessage(content=SYSTEM_CONTENT)

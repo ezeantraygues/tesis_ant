@@ -115,6 +115,8 @@ def main():
                         mongo_manager = MongoManager()
                         query = {"_id": st.session_state["selected_record"]["_id"]}
                         update = {"$set": updated_data}
+                        print(query)
+                        print(update)
                         mongo_manager.update_item("usuarios", query, update)
                         st.success("Datos actualizados con éxito.")
                         # Actualizar los resultados de búsqueda
