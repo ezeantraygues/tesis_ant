@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 from dotenv import load_dotenv
 load_dotenv(".env.dev")
 from src.main_extraction import process_file
+from src.generate_sections.main import write_report_from_data
 
 # Streamlit app configuration
 st.set_page_config(page_title="Procesamiento", layout="wide")
@@ -52,14 +53,6 @@ def main():
                 # extracted_data = st.session_state.extracted_data
             print(extracted_data)
 
-        # if extracted_data:
-        #     # Write results section (placeholder for future implementation)
-        #     st.text_area("Resultados", extracted_data['text_fields'].get('resultados', ''))
-        #     st.text_area("Conclusiones", extracted_data['text_fields'].get('conclusiones', ''))
-        #     st.text_area("Recomendaciones", extracted_data['text_fields'].get('recomendaciones', ''))
-        # else:
-        #     st.write("No data extracted yet. Please upload a file.")
-
     with col2:
         if extracted_data:
             # Centered "Datos extraídos" header
@@ -74,15 +67,20 @@ def main():
             df = pd.DataFrame(quantitative_data)
             st.dataframe(df, use_container_width=True) #TODO: Should be editable!
 
-            st.text_area("Resultados", extracted_data['text_fields'].get('resultados', ''))
+            st.text_area("Resultados", extracted_data['text_fields'].get('resultados', ''), key="resultados")
             if st.button("Generar Resultados con AI"):
                 st.write("Generando!")  # Placeholder for save logic
+                resultados = write_report_from_data(extracted_data['quantitative_data'],'resultados')
+                st.text_area("Resultados", resultados, key="resultados") #TODO: fixear como se sobreescribe acá
+
             st.text_area("Conclusiones", extracted_data['text_fields'].get('conclusiones', ''))
             if st.button("Generar Conclusiones con AI"):
                 st.write("Generando!")  # Placeholder for save logic
+                conclusiones = write_report_from_data(extracted_data['quantitative_data'],'conclusiones')
             st.text_area("Recomendaciones", extracted_data['text_fields'].get('recomendaciones', ''))
             if st.button("Generar Recomendaciones con AI"):
                 st.write("Generando!")  # Placeholder for save logic
+                recomendaciones = write_report_from_data(extracted_data['quantitative_data'],'recomendaciones')
 
             # Horizontal buttons below the table
             st.markdown("<hr>", unsafe_allow_html=True)

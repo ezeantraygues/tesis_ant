@@ -36,21 +36,3 @@ class DataExtractorResponse(BaseModel):
     patient_data:PatientData
     quantitative_data:QuantitativeData
     text_fields:TextFields  
-
-    # class Config:
-    #     schema_extra = {
-    #         "example": {
-    #             "cadencia": "90 pasos/minuto",
-    #             "tipo_contacto": "talón",
-    #             "inclinacion_tronco": "normal",
-    #             "progresion": "rectilínea",
-    #             "indice_simetria": "95%",
-    #             "velocidad_propulsion": "1.5 m/s",
-    #             "capacidad_amortiguacion": "buena",
-    #             "rango_anteversion": "15°",
-    #             "rango_rotacion_pelvica": "8°",
-    #             "FRP": "normal",
-    #             "activacion_muscular_apoyo": "sobreactivación",
-    #             "activacion_muscular_oscilacion": "normal"
-    #         }
-    #     }

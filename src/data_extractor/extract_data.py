@@ -10,10 +10,6 @@ from langchain.schema import HumanMessage, SystemMessage
 from datetime import datetime
 from models.report import DataExtractorResponse
 
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-AZURE_CHAT_DEPLOYMENT_NAME = os.getenv("AZURE_CHAT_DEPLOYMENT_NAME")
-
 from .prompts import USER_TEXT_CONTENT, SYSTEM_CONTENT
 
 
