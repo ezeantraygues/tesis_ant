@@ -5,10 +5,9 @@ import base64
 from io import BytesIO
 import base64
 from typing import List
-from langchain_openai import AzureChatOpenAI, ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
-
-
+from datetime import datetime
 from models.report import DataExtractorResponse
 
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
@@ -19,10 +18,6 @@ from .prompts import USER_TEXT_CONTENT, SYSTEM_CONTENT
 
 
 chat = ChatOpenAI(
-    # openai_api_key=AZURE_OPENAI_API_KEY,
-    # azure_endpoint=AZURE_OPENAI_ENDPOINT,
-    # deployment_name=AZURE_CHAT_DEPLOYMENT_NAME,
-    # openai_api_version="2024-08-01-preview",
     model="gpt-4o",
     temperature=0,
     request_timeout=550,
@@ -107,7 +102,8 @@ def __extract_plots_from_image(images):
             # Crop the image
             cropped_image = image.crop((left, upper, right, lower))
             crop_images.append(cropped_image)
-            path = f"example_data/plots/cropped_image_{idx}.png"
+            current_time = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+            path = f"example_data/plots/cropped_image_{current_time}.png"
             crop_images_paths.append(path)
             cropped_image.save(path)
     return crop_images, crop_images_paths

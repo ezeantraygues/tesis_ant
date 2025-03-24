@@ -2,6 +2,7 @@ from __future__ import print_function
 import pickle
 import os.path
 import io
+from google.oauth2 import service_account
 
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -31,10 +32,8 @@ class DriveAPI:
             if self.creds and self.creds.expired and self.creds.refresh_token:
                 self.creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    "src/common/credentials.json", SCOPES
-                )
-                self.creds = flow.run_local_server(port=0)
+                self.creds = service_account.Credentials.from_service_account_file(
+                    "src/common/credentials.json", scopes=SCOPES)
 
             # Save the access token in token.pickle file for future usage
             with open("token.pickle", "wb") as token:
@@ -191,6 +190,7 @@ class Downloader(DriveAPI):
             return
         finally:
             fh.close()
+            
 
 class Uploader(DriveAPI):
     def __init__(self):
@@ -207,7 +207,7 @@ class Uploader(DriveAPI):
         folder = self.service.files().create(body=file_metadata, fields="id").execute()
         return folder.get("id")
 
-    def uploadFile(self, file_path, parent_folder_id=None):
+    def upload_file(self, file_path, parent_folder_id=None):
         file_metadata = {"name": os.path.basename(file_path)}
         if parent_folder_id:
             file_metadata["parents"] = [parent_folder_id]
@@ -229,5 +229,5 @@ class Uploader(DriveAPI):
             if os.path.isdir(item_path):
                 self.uploadFolder(item_path, folder_id)
             else:
-                self.uploadFile(item_path, folder_id)
+                self.upload_file(item_path, folder_id)
         return folder_id

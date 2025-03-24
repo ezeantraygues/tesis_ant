@@ -66,8 +66,6 @@ def main():
             st.markdown("<h3 style='text-align: center;'>Datos personales del paciente</h3>", unsafe_allow_html=True)
 
             # DataFrame visualization
-            # Example DataFrame
-            # data = pd.read_csv('example_data/jhon_doe.csv')
             patient_data = {k:[v] for k,v in extracted_data['patient_data'].items()}
             df = pd.DataFrame(patient_data)
             st.dataframe(df, use_container_width=True)
@@ -76,8 +74,6 @@ def main():
             st.markdown("<h3 style='text-align: center;'>Datos cuantitativos del paciente</h3>", unsafe_allow_html=True)
 
             # DataFrame visualization
-            # Example DataFrame
-            # data = pd.read_csv('example_data/jhon_doe.csv')
             quantitative_data = {k:[v] for k,v in extracted_data['quantitative_data'].items()}
             df = pd.DataFrame(quantitative_data)
             st.dataframe(df, use_container_width=True)
@@ -111,7 +107,6 @@ def main():
         # Image carousel
         if extracted_data:
             st.subheader("Graficos")
-            # Example image list (replace with your images)
             image_list = [f'example_data/plots/{plot}' for plot in os.listdir('example_data/plots')]
             # image_list = [extracted_data['plots'][1]] #TODO: fix this
             image_carousel(image_list)

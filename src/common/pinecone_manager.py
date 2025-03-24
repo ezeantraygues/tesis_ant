@@ -5,17 +5,14 @@ import os
 index_name = os.getenv("PINECONE_INDEX_NAME")
 
 
-from langchain_openai import AzureOpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.schema.document import Document
 
 
 # Create the AzureOpenAIEmbeddings object
-azure_openai_embeddings = AzureOpenAIEmbeddings(
-    openai_api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    deployment=os.getenv("AZURE_EMBEDDING_DEPLOYMENT_NAME"),
-    api_version="2024-08-01-preview",
+azure_openai_embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-small",
 )
 
 class PineconeManager:
