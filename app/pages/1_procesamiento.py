@@ -52,57 +52,58 @@ def main():
                 # extracted_data = st.session_state.extracted_data
             print(extracted_data)
 
-        if extracted_data:
-            # Write results section (placeholder for future implementation)
-            st.text_area("Resultados", extracted_data['text_fields'].get('resultados', ''))
-            st.text_area("Conclusiones", extracted_data['text_fields'].get('conclusiones', ''))
-            st.text_area("Recomendaciones", extracted_data['text_fields'].get('recomendaciones', ''))
-        else:
-            st.write("No data extracted yet. Please upload a file.")
+        # if extracted_data:
+        #     # Write results section (placeholder for future implementation)
+        #     st.text_area("Resultados", extracted_data['text_fields'].get('resultados', ''))
+        #     st.text_area("Conclusiones", extracted_data['text_fields'].get('conclusiones', ''))
+        #     st.text_area("Recomendaciones", extracted_data['text_fields'].get('recomendaciones', ''))
+        # else:
+        #     st.write("No data extracted yet. Please upload a file.")
 
     with col2:
         if extracted_data:
             # Centered "Datos extraídos" header
             st.markdown("<h3 style='text-align: center;'>Datos personales del paciente</h3>", unsafe_allow_html=True)
-
-            # DataFrame visualization
             patient_data = {k:[v] for k,v in extracted_data['patient_data'].items()}
             df = pd.DataFrame(patient_data)
-            st.dataframe(df, use_container_width=True)
+            st.dataframe(df, use_container_width=True) #TODO: Should be editable!
 
             # Centered "Datos extraídos" header
             st.markdown("<h3 style='text-align: center;'>Datos cuantitativos del paciente</h3>", unsafe_allow_html=True)
-
-            # DataFrame visualization
             quantitative_data = {k:[v] for k,v in extracted_data['quantitative_data'].items()}
             df = pd.DataFrame(quantitative_data)
-            st.dataframe(df, use_container_width=True)
+            st.dataframe(df, use_container_width=True) #TODO: Should be editable!
+
+            st.text_area("Resultados", extracted_data['text_fields'].get('resultados', ''))
+            if st.button("Generar Resultados con AI"):
+                st.write("Generando!")  # Placeholder for save logic
+            st.text_area("Conclusiones", extracted_data['text_fields'].get('conclusiones', ''))
+            if st.button("Generar Conclusiones con AI"):
+                st.write("Generando!")  # Placeholder for save logic
+            st.text_area("Recomendaciones", extracted_data['text_fields'].get('recomendaciones', ''))
+            if st.button("Generar Recomendaciones con AI"):
+                st.write("Generando!")  # Placeholder for save logic
+
+            # Horizontal buttons below the table
+            st.markdown("<hr>", unsafe_allow_html=True)
+            col_btn1, col_btn2, col_btn3= st.columns(3)
+
+            with col_btn1:
+                if st.button("Guardar"):
+                    st.write("Guardando!")  # Placeholder for save logic
+            
+            with col_btn2:
+                if st.button("Borrar cambios"):
+                    st.write("Borrar triggered!")  # Placeholder for cancel logic
+
+            with col_btn3:
+                if st.button("Descargar"):
+                    st.write("Descargando!")  # Placeholder for print logic
+
         else:
-            st.write("No data extracted yet. Please upload a file.")
+            st.write("No data extracted yet. Please upload a file to see data.")
 
-        # Horizontal buttons below the table
-        st.markdown("<hr>", unsafe_allow_html=True)
-        col_btn1, col_btn2, col_btn3, col_btn4, col_btn5 = st.columns(5)
-
-        with col_btn1:
-            if st.button("Edit"):
-                st.write("Edit functionality triggered!")  # Placeholder for edit logic
-
-        with col_btn3:
-            if st.button("Save"):
-                st.write("Save functionality triggered!")  # Placeholder for save logic
         
-        with col_btn2:
-            if st.button("Cancel"):
-                st.write("Cancel functionality triggered!")  # Placeholder for cancel logic
-
-        with col_btn4:
-            if st.button("Save & Gen. report"):
-                st.write("Save and generate report functionality triggered!")  # Placeholder for report logic
-
-        with col_btn5:
-            if st.button("Print"):
-                st.write("Print functionality triggered!")  # Placeholder for print logic
 
         # Image carousel
         if extracted_data:
@@ -111,7 +112,7 @@ def main():
             # image_list = [extracted_data['plots'][1]] #TODO: fix this
             image_carousel(image_list)
         else:
-            st.write("No data extracted yet. Please upload a file.")
+            st.write("No data extracted yet. Please upload a file to see plots.")
 
 if __name__ == "__main__":
     main()
