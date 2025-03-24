@@ -14,7 +14,7 @@ MONGO_DATABASE = os.getenv('MONGO_DATABASE')
 MONGO_COLLECTION = os.getenv('MONGO_COLLECTION')
 
 
-mongo_manager = MongoManager(MONGO_URI,MONGO_DATABASE)
+mongo_manager = MongoManager(MONGO_URI, MONGO_DATABASE)
 
 def process_file(pdf_path: str):
 
@@ -29,8 +29,5 @@ def process_file(pdf_path: str):
     
 
 
-    
-    file_id = Uploader().upload_file(extracted_data['plots'],folder_id)
 
-    #Upload 'Resultados" & 'Conclusiones' to vector store (pinecone)
-    upload_vectors(extracted_data['text_fields'], extracted_data['patient_data'])
+    return extracted_data
