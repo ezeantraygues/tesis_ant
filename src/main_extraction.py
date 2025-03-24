@@ -25,7 +25,7 @@ def process_file(pdf_path: str):
     extracted_data = extract_data_from_image(pdf_image)
 
     # Save to Mongo
-    full_data = {**extracted_data['patient_data'], **extracted_data['quantitative_data'], **extracted_data['text_fields']}
+    full_data = {**extracted_data['patient_data'], **extracted_data['quantitative_data'], **extracted_data['text_fields'],'plots_paths':extracted_data['plots'][1]}
     mongo_manager.put_item(MONGO_COLLECTION, full_data)
     
     # Save to GDrive

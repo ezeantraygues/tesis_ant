@@ -69,7 +69,7 @@ class MongoManager:
     def get_collection_data(self, collection_name, query=None):
    # """Retrieve documents from a collection with an optional query."""
         try:
-            collection = self.db[collection_name]  # Cambiado de self.database a self.db
+            collection = self.db[collection_name]
             if query is None:
               query = {}
             return list(collection.find(query))
