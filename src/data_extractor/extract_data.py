@@ -98,7 +98,7 @@ def __extract_plots_from_image(images):
             # Crop the image
             cropped_image = image.crop((left, upper, right, lower))
             crop_images.append(cropped_image)
-            current_time = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+            current_time = datetime.now().strftime("%Y-%m-%d-%H:%M:%S.%f")[:-3]
             path = f"example_data/plots/cropped_image_{current_time}.png"
             crop_images_paths.append(path)
             cropped_image.save(path)
