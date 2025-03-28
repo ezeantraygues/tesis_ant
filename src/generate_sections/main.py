@@ -12,7 +12,7 @@ chat = ChatOpenAI(
     max_tokens=4000,
 )
 
-def write_report_from_data(data: dict, section:str):
+def write_report_from_data(data: dict, results:str, section:str):
     """
     Write a biomechanical report from the extracted data.
 
@@ -20,17 +20,17 @@ def write_report_from_data(data: dict, section:str):
         data (dict): Extracted data from the images.
     """
 
-    if section == "resultados":
-        system_message = SystemMessage(content=SYSTEM_CONTENT_RESULTADOS)
-        user_message = HumanMessage(content=USER_MESSAGE_RESULTADOS.format(user_data=data))
+    # if section == "resultados":
+    #     system_message = SystemMessage(content=SYSTEM_CONTENT_RESULTADOS)
+    #     user_message = HumanMessage(content=USER_MESSAGE_RESULTADOS.format(user_data=data))
 
     if section == "conclusiones":
         system_message = SystemMessage(content=SYSTEM_CONTENT_CONCLUSIONES)
-        user_message = HumanMessage(content=USER_MESSAGE_CONCLUSIONES.format(user_data=data))
+        user_message = HumanMessage(content=USER_MESSAGE_CONCLUSIONES.format(user_data=data, results = results))
 
     if section == "recomendaciones":
         system_message = SystemMessage(content=SYSTEM_CONTENT_RECOMENDACIONES)
-        user_message = HumanMessage(content=USER_MESSAGE_RECOMENDACIONES.format(user_data=data))
+        user_message = HumanMessage(content=USER_MESSAGE_RECOMENDACIONES.format(user_data=data, results = results))
 
     history = [system_message, user_message]
     response = chat.invoke(history, response_format=SectionText)

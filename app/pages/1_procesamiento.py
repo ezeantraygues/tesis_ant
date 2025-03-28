@@ -16,9 +16,9 @@ st.set_page_config(page_title="Procesamiento", layout="wide")
 def process_pdf(file_path):
     return process_file(file_path)
 
-def generate_text(data, text_type):
+def generate_text(data,results, text_type):
     """Generate new text (resultados, conclusiones, recomendaciones) using AI."""
-    return write_report_from_data(data, text_type)
+    return write_report_from_data(data,results, text_type)
 
 def image_carousel(image_list):
     """Displays an image carousel given a list of image paths."""
@@ -82,22 +82,22 @@ def main():
 
         col1, col2, col3 = st.columns(3)
         # Buttons for regenerating text with AI, without triggering pdf reprocessing
-        with col1:
-            if st.button("Generar Resultados con AI"):
-                with st.spinner("Generando resultados..."):
-                    nuevos_resultados = generate_text(extracted_data['quantitative_data'], 'resultados')
-                    st.session_state.extracted_data['text_fields']['resultados'] = nuevos_resultados
-                    st.experimental_rerun()  # Update UI with new text
+        # with col1:
+        #     if st.button("Generar Resultados con AI"):
+        #         with st.spinner("Generando resultados..."):
+        #             nuevos_resultados = generate_text(extracted_data['quantitative_data'],extracted_data['text_fields']['resultados'], 'resultados')
+        #             st.session_state.extracted_data['text_fields']['resultados'] = nuevos_resultados
+        #             st.experimental_rerun()  # Update UI with new text
         with col2:
             if st.button("Generar Conclusiones con AI"):
-                with st.spinner("Generando conclusiones..."):
-                    nuevas_conclusiones = generate_text(extracted_data['quantitative_data'], 'conclusiones')
+                with st.spinner("Generando conclusiones..."): #Check si funciona bien
+                    nuevas_conclusiones = generate_text(extracted_data['quantitative_data'],extracted_data['text_fields']['resultados'], 'conclusiones')
                     st.session_state.extracted_data['text_fields']['conclusiones'] = nuevas_conclusiones
                     st.experimental_rerun()
         with col3:
             if st.button("Generar Recomendaciones con AI"):
-                with st.spinner("Generando recomendaciones..."):
-                    nuevas_recomendaciones = generate_text(extracted_data['quantitative_data'], 'recomendaciones')
+                with st.spinner("Generando recomendaciones..."): #Check si funciona bien
+                    nuevas_recomendaciones = generate_text(extracted_data['quantitative_data'],extracted_data['text_fields']['resultados'], 'recomendaciones')
                     st.session_state.extracted_data['text_fields']['recomendaciones'] = nuevas_recomendaciones
                     st.experimental_rerun()
 

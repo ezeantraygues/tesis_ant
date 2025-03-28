@@ -7,8 +7,8 @@ class PatientData(BaseModel):
     patologia: str
     session_notes: str
     fecha_nacimiento: str
-    peso: str
-    altura: str
+    peso: int
+    altura: int
     sexo: str
 
 class QuantitativeData(BaseModel):

@@ -35,5 +35,6 @@ def process_file(pdf_path: str):
     # #Upload 'Resultados" & 'Conclusiones' to vector store (pinecone)
     upload_vectors(extracted_data['text_fields'], extracted_data['patient_data'])
 
+    #TODO: guardar informe completo en gdrive
 
     return extracted_data

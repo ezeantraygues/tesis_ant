@@ -1,3 +1,4 @@
+#TODO: iterar el prompt para ir mejorandolo
 SYSTEM_CONTENT = """
 You'll receive a free text written by an user, who wants to query a mongo database.
 The database has a collection with documents, each of them with the following attributes:
@@ -6,8 +7,8 @@ The database has a collection with documents, each of them with the following at
     patologia: str
     session_notes: str
     fecha_nacimiento: str
-    peso: str
-    altura: str
+    peso: int
+    altura: int
     sexo: str
     cadencia: str
     tipo_contacto: str

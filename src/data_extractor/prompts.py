@@ -7,8 +7,8 @@ You'll receive images from a biomechanical report of a patient, showing data in 
             patologia: str
             session_notes: str
             fecha_nacimiento: str
-            peso: str
-            altura: str
+            peso: int
+            altura: int
             sexo: str
             
         }},
