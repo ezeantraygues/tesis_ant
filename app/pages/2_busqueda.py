@@ -63,8 +63,6 @@ def search_data(nombre=None, dni=None, patologia=None, texto=None):
 
     # Convertir los datos obtenidos a DataFrame
     if data:
-        for item in data:
-            item.pop('plots_paths') #TODO: show plots in UI
         return pd.DataFrame(data)
     else:
         return pd.DataFrame()  # DataFrame vacío si no hay resultados
@@ -171,7 +169,13 @@ def main():
 
         # Carrusel de imágenes
         st.subheader("Gráficos")
-        image_list = [f'example_data/plots/{plot}' for plot in os.listdir('example_data/plots')] #TODO: get images from gdrive
+
+        # Obtener las imágenes del registro seleccionado
+        if "selected_record" in st.session_state and st.session_state["selected_record"]:
+            image_list = st.session_state["selected_record"].get("plots_paths", [])
+        else:
+            image_list = []
+
         image_carousel(image_list)
 
 
