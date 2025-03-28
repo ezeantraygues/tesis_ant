@@ -1,7 +1,10 @@
 import os
+import sys
 import tempfile
 import streamlit as st
 import pandas as pd
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 from src.main_extraction import process_file
 from src.generate_sections.main import write_report_from_data
 

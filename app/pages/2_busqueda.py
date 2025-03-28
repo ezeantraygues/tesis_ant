@@ -3,8 +3,10 @@ import os
 import streamlit as st
 import pandas as pd
 from dotenv import load_dotenv
+
 load_dotenv(".env.dev")
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from src.mongo_agent.main import query_mongodb
 
 from src.common.mongo_manager import MongoManager
 MONGO_URI = os.getenv('MONGO_URI')
@@ -67,7 +69,10 @@ def search_data(nombre=None, dni=None, patologia=None, texto=None):
     else:
         return pd.DataFrame()  # DataFrame vacío si no hay resultados
     
-    
+def search_data_mongo(text:str):
+    result = query_mongodb(text)
+    return pd.DataFrame(result)
+
 
 
 def main():
@@ -87,7 +92,7 @@ def main():
         texto = st.text_input("Búsqueda semántica")
 
         # Buscar datos cuando se hace clic en el botón Search
-        if st.button("Search"):
+        if st.button("Buscar"):
             # Buscar datos desde la base de datos de MongoDB
             df = search_data(nombre, dni, patologia, texto)
             st.session_state["search_results"] = df
@@ -95,6 +100,19 @@ def main():
                 st.success("Búsqueda completada con éxito.")
             else:
                 st.warning("No se encontraron resultados.")
+
+        st.markdown("<h3 style='text-align: center;'>Búsqueda exacta avanzada</h3>", unsafe_allow_html=True)
+        texto = st.text_input("Por ej. 'capacidad de amortiguación disminuida'")
+        if st.button("Buscar (avanzado)"):
+            # Buscar datos desde la base de datos de MongoDB
+            df = search_data_mongo(texto)
+            print(f"Se encontroe: {df}")
+            st.session_state["search_results"] = df
+            if not df.empty:
+                st.success("Búsqueda completada con éxito.")
+            else:
+                st.warning("No se encontraron resultados.")
+        
 
     with col2:
         # Mostrar resultados
