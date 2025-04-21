@@ -1,0 +1,159 @@
+import fitz  # PyMuPDF
+import re
+import os
+import json
+
+def extraer_secciones_pdf(path_pdf):
+    doc = fitz.open(path_pdf)
+    texto = ""
+    for pagina in doc:
+        texto += pagina.get_text()
+    doc.close()
+
+    # Limpieza de saltos y espacios
+    texto = texto.replace('\r', '').replace('\n', ' ').strip()
+
+    # Regex para secciones
+    patron_resultados = r"RESULTADOS:\s*(.*?)(?=CONCLUSIONES:|RECOMENDACIÓN:|$)"
+    patron_conclusiones = r"CONCLUSIONES:\s*(.*?)(?=RECOMENDACIÓN:|$)"
+    patron_recomendaciones = r"RECOMENDACIÓN:\s*(.*)"
+
+    resultados = re.search(patron_resultados, texto, re.IGNORECASE | re.DOTALL)
+    conclusiones = re.search(patron_conclusiones, texto, re.IGNORECASE | re.DOTALL)
+    recomendaciones = re.search(patron_recomendaciones, texto, re.IGNORECASE | re.DOTALL)
+
+    return {
+        "resultados": resultados.group(1).strip() if resultados else "",
+        "conclusiones": conclusiones.group(1).strip() if conclusiones else "",
+        "recomendaciones": recomendaciones.group(1).strip() if recomendaciones else ""
+    }
+
+def procesar_carpeta_jsonl(carpeta_entrada, output_jsonl="informes_dataset.jsonl"):
+    with open(output_jsonl, "w", encoding="utf-8") as outfile:
+        for archivo in os.listdir(carpeta_entrada):
+            if archivo.lower().endswith(".pdf"):
+                ruta = os.path.join(carpeta_entrada, archivo)
+                print(f"Procesando: {archivo}")
+                try:
+                    secciones = extraer_secciones_pdf(ruta)
+                    entrada = {
+                        "archivo": archivo,
+                        "input": secciones["resultados"],
+                        "output_conclusion": secciones["conclusiones"],
+                        "output_recomendacion": secciones["recomendaciones"]
+                    }
+                    json.dump(entrada, outfile, ensure_ascii=False)
+                    outfile.write("\n")
+                except Exception as e:
+                    print(f"❌ Error procesando {archivo}: {e}")
+
+    print(f"\n✅ Dataset guardado en formato JSONL como: {output_jsonl}")
+
+if __name__ == "__main__":
+    carpeta_pdfs = r"C:\Users\ezean\OneDrive\Escritorio\TESIS_ANTRAYGUES\informes"
+
+    procesar_carpeta_jsonl(carpeta_pdfs)
+
+#######################################################################################################3
+# import fitz  # PyMuPDF
+# import re
+# import os
+# import pandas as pd
+
+# def extraer_secciones_pdf(path_pdf):
+#     doc = fitz.open(path_pdf)
+#     texto = ""
+#     for pagina in doc:
+#         texto += pagina.get_text()
+#     doc.close()
+
+#     # Normalización de texto
+#     texto = texto.replace('\r', '').replace('\n', ' ').strip()
+
+#     # Patrones regex para detectar secciones
+#     patron_resultados = r"RESULTADOS:\s*(.*?)(?=CONCLUSIONES:|RECOMENDACIÓN:|$)"
+#     patron_conclusiones = r"CONCLUSIONES:\s*(.*?)(?=RECOMENDACIÓN:|$)"
+#     patron_recomendaciones = r"RECOMENDACIÓN:\s*(.*)"
+
+#     resultados = re.search(patron_resultados, texto, re.IGNORECASE | re.DOTALL)
+#     conclusiones = re.search(patron_conclusiones, texto, re.IGNORECASE | re.DOTALL)
+#     recomendaciones = re.search(patron_recomendaciones, texto, re.IGNORECASE | re.DOTALL)
+
+#     return {
+#         "resultados": resultados.group(1).strip() if resultados else "",
+#         "conclusiones": conclusiones.group(1).strip() if conclusiones else "",
+#         "recomendaciones": recomendaciones.group(1).strip() if recomendaciones else ""
+#     }
+
+# def procesar_carpeta_pdf(carpeta_entrada, output_csv="informes_extraidos.csv"):
+#     data = []
+
+#     for archivo in os.listdir(carpeta_entrada):
+#         if archivo.lower().endswith(".pdf"):
+#             ruta = os.path.join(carpeta_entrada, archivo)
+#             print(f"Procesando: {archivo}")
+#             try:
+#                 secciones = extraer_secciones_pdf(ruta)
+#                 data.append({
+#                     "archivo": archivo,
+#                     **secciones
+#                 })
+#             except Exception as e:
+#                 print(f"❌ Error procesando {archivo}: {e}")
+
+#     df = pd.DataFrame(data)
+#     df.to_csv(output_csv, index=False)
+#     print(f"\n✅ Extracción completada. Guardado en {output_csv}")
+
+# if __name__ == "__main__":
+#     # Cambiá esto por tu ruta real
+#     carpeta_pdfs = "informes/"
+#     procesar_carpeta_pdf(carpeta_pdfs)
+##################################################################################################################
+# import fitz  # PyMuPDF
+# import os
+# import re
+# import pandas as pd
+
+# # Carpeta donde están los informes
+# CARPETA_PDFS = "informes/"
+# resultados_extraidos = []
+
+# def extraer_secciones(texto):
+#     # Convertir texto a minúsculas sin tildes para evitar errores de formato
+#     texto = texto.replace('\n', ' ').strip()
+
+#     # Buscar secciones con regex flexible
+#     patrones = {
+#         "resultados": r"(resultados|hallazgos):(.+?)(?=(conclusiones|conclusión|recomendaciones|$))",
+#         "conclusiones": r"(conclusiones|conclusión):(.+?)(?=(recomendaciones|$))",
+#         "recomendaciones": r"(recomendaciones):(.+?)(?=$)"
+#     }
+
+#     secciones = {}
+#     for nombre, patron in patrones.items():
+#         match = re.search(patron, texto, re.IGNORECASE | re.DOTALL)
+#         secciones[nombre] = match.group(2).strip() if match else ""
+
+#     return secciones
+
+# for archivo in os.listdir(CARPETA_PDFS):
+#     if archivo.endswith(".pdf"):
+#         ruta = os.path.join(CARPETA_PDFS, archivo)
+#         doc = fitz.open(ruta)
+#         texto = ""
+#         for pagina in doc:
+#             texto += pagina.get_text()
+#         doc.close()
+
+#         secciones = extraer_secciones(texto)
+#         resultados_extraidos.append({
+#             "archivo": archivo,
+#             "resultados": secciones["resultados"],
+#             "conclusiones": secciones["conclusiones"],
+#             "recomendaciones": secciones["recomendaciones"]
+#         })
+
+# # Guardar en CSV
+# df = pd.DataFrame(resultados_extraidos)
+# df.to_csv("resultados_conclusiones_recomendaciones.csv", index=False)

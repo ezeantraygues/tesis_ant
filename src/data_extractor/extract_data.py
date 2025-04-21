@@ -13,11 +13,18 @@ from models.report import DataExtractorResponse
 from .prompts import USER_TEXT_CONTENT, SYSTEM_CONTENT
 
 
+
+# chat = ChatOpenAI(
+#     model="gpt-4-1106-preview",  # o "gpt-4-32k" si tu cuenta lo permite
+#     temperature=0,
+#     max_tokens=4096,  # ajusta si hace falta
+# )
+
 chat = ChatOpenAI(
     model="gpt-4o",
     temperature=0,
-    request_timeout=550,
-    max_tokens=4000,
+    request_timeout=850,#850, 550
+    max_tokens=6000,#6000, 5000, 4000
 )
 
 system_message = SystemMessage(content=SYSTEM_CONTENT)
@@ -79,27 +86,21 @@ def __extract_plots_from_image(images):
     crop_images = []
     crop_images_paths = []
 
-    #Buscar las coordenadas de cada plot en cada página, en formato left,upper,right,lower
     crop_coordinates = [[],[(35, 540, 955, 960)],[(40, 100, 950, 400),(40, 420, 480, 580),(40, 580, 480, 740),(40, 740, 480, 900),(510, 420, 960, 580),(510, 580, 950, 740),(510, 740, 950, 900)],[(35, 80, 950, 900)],[(35, 80, 950, 900)],[(35, 60, 950, 950)],[],[(35, 160, 950, 950)],[(35, 160, 950, 950)],[],[(35, 160, 950, 950)],[(35, 160, 950, 950)],[]]
     #crop_coordinates = [[],[(rango de rot pelvica)],[(cap de amortiguacion),(dur ciclo de la carr),(cadencia),(vel de propulsion),(ind de simetria),(dur fase contacto),(dur fas apoyo)],[(graficos ciclo correr)],[(graficos ciclo caminar)],[(dinamica musculos)],[],[(prueba salto rig bipodlico)],[(prueba salto rig bipodlico))],[],[(prueba salto rig monopodlico)],[(prueba salto rig monopodlico)],[]]
-    # podria dividir en 4 el de dinamica musculos (corchete nro 6) 
-    for idx,image in enumerate(images):
-        # Convert the base64 string back to bytes
+    for idx, image in enumerate(images):
         image_data = base64.b64decode(image)
-
-        # Load the image from bytes
         image = Image.open(BytesIO(image_data))
 
-        # Define the coordinates for cropping (left, upper, right, lower)
-        # Example coordinates, change them to the desired ones
         for coordinate in crop_coordinates[idx]:
             left, upper, right, lower = coordinate
-            
-            # Crop the image
             cropped_image = image.crop((left, upper, right, lower))
             crop_images.append(cropped_image)
-            current_time = datetime.now().strftime("%Y-%m-%d-%H:%M:%S.%f")[:-3]
+
+            # Corregir formato de timestamp
+            current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")[:-3]  
             path = f"example_data/plots/cropped_image_{current_time}.png"
             crop_images_paths.append(path)
             cropped_image.save(path)
+
     return crop_images, crop_images_paths
