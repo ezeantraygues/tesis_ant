@@ -12,7 +12,7 @@ from langchain.schema.document import Document
 
 # Create the AzureOpenAIEmbeddings object
 azure_openai_embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-small",
+    model="text-embedding-3-large",
 )
 
 class PineconeManager:
@@ -33,10 +33,15 @@ class PineconeManager:
             docs = [Document(page_content=x) for x in text_splitter.split_text(text)]
             for doc in docs:
                 doc.metadata = metadata
-            self.db.add_documents(documents=docs)     
+                self.db.add_documents(documents=[doc])
+            # self.db.add_documents(documents=docs)     
 
     def search(self, query: str) -> List[dict]:
         # Search for the query in the database
-        results = self.db.similarity_search(query, k=self.k)
+        results = self.db.similarity_search(query, k=self.k, filter= {"$or": [
+            {"type": "conclusiones"},
+            {"type": "recomendaciones"}
+        ]
+    })
         search_results = [{**result.metadata, "texto":result.page_content} for result in results]
         return search_results
